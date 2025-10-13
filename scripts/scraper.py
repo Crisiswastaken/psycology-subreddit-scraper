@@ -59,8 +59,9 @@ POST_LIMIT = 1000
 # Delay between subreddit scrapes to avoid rate limiting (seconds)
 REQUEST_DELAY = 2
 
-# Output file
-OUTPUT_FILE = "reddit_psych_posts.json"
+# Output configuration
+OUTPUT_DIRECTORY = os.getenv("OUTPUT_DIRECTORY", "output")  # Directory to save files
+OUTPUT_FILENAME = os.getenv("OUTPUT_FILENAME", "reddit_psych_posts.json")  # Output file name 
 # ---------------------------------------- #
 
 def validate_credentials() -> bool:
@@ -112,7 +113,18 @@ def scrape_subreddit(reddit: praw.Reddit, subreddit_name: str, limit: int = POST
         subreddit = reddit.subreddit(subreddit_name)
         print(f"Scraping r/{subreddit_name}...")
 
-        for post in subreddit.top(time_filter='all', limit=limit):
+        for post in subreddit.top(time_filter='month', limit=limit): 
+            #============================================================#
+            # Available time_filter values:
+            # all: Retrieves submissions from all time (default).
+            # day: Retrieves submissions from the last 24 hours.
+            # hour: Retrieves submissions from the last hour.
+            # month: Retrieves submissions from the last month.
+            # week: Retrieves submissions from the last week.
+            # year: Retrieves submissions from the last year.
+            #============================================================#
+
+            
             # Include posts with text content
             if post.selftext and post.selftext.strip():
                 post_data = {
@@ -137,9 +149,18 @@ def scrape_subreddit(reddit: praw.Reddit, subreddit_name: str, limit: int = POST
 
     return scraped_posts
 
-def save_to_json(data: List[Dict], filename: str) -> bool:
+def save_to_json(data: List[Dict], directory: str, filename: str) -> bool:
     """Save scraped data to JSON file with metadata."""
     try:
+        # Create output directory if it doesn't exist
+        output_dir = Path(directory)
+        print(f"\nCreating directory: {output_dir.absolute()}")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Construct full file path
+        filepath = output_dir / filename
+        print(f"Saving to: {filepath.absolute()}")
+        
         output = {
             "metadata": {
                 "scrape_date": datetime.utcnow().isoformat(),
@@ -150,15 +171,15 @@ def save_to_json(data: List[Dict], filename: str) -> bool:
             "posts": data
         }
         
-        with open(filename, "w", encoding="utf-8") as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             json.dump(output, f, ensure_ascii=False, indent=2)
         
-        print(f"✓ Successfully saved {len(data)} posts to {filename}")
+        print(f"✓ Successfully saved {len(data)} posts to {filepath.absolute()}")
         return True
     except Exception as e:
         print(f"ERROR: Failed to save JSON: {e}")
-        return False
-
+        return False    
+    
 def main():
     """Main function to scrape all subreddits and save JSON output."""
     print("=" * 60)
@@ -196,9 +217,9 @@ def main():
     print(f"\nScraping complete! Total posts collected: {len(all_posts)}")
     
     if all_posts:
-        if save_to_json(all_posts, OUTPUT_FILE):
-            print(f"Output file: {OUTPUT_FILE}")
-            
+        if save_to_json(all_posts, OUTPUT_DIRECTORY, OUTPUT_FILENAME):
+            print(f"Full path: {(Path(OUTPUT_DIRECTORY) / OUTPUT_FILENAME).absolute()}")
+
             # Print summary statistics
             print("\nSummary by subreddit:")
             subreddit_counts = {}

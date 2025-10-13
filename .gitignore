@@ -32,3 +32,7 @@ build/
 # Jupyter Notebook specific files
 .ipynb_checkpoints/
 
+
+#output
+output/
+
