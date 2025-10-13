@@ -1,0 +1,34 @@
+# Byte-code files
+*.pyc
+__pycache__/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+.env/
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*.swp # Vim swap files
+*~ # Emacs backup files
+
+# Operating System files
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# Test and coverage files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebook specific files
+.ipynb_checkpoints/
+
