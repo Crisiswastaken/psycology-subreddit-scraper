@@ -18,15 +18,5 @@ On Windows (Command Prompt).
 On Windows (PowerShell). 
         myenv\Scripts\Activate.ps1
 
-Once activated, your terminal prompt will typically show the name of your virtual environment in parentheses (e.g., (myenv) your_username@your_machine:~/your_project$), indicating that you are now working within the isolated environment. Install packages. 
-With the virtual environment activated, you can now install project-specific packages using pip. These packages will be installed only within this virtual environment and will not affect your global Python installation. 
-    pip install package_name
 
-Deactivate the virtual environment. 
-When you are finished working on your project or need to switch to another environment, you can deactivate the current one. 
-    deactivate
-
-This command will return your terminal to your global Python environment. 
-
-AI responses may include mistakes.
 
