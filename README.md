@@ -107,5 +107,4 @@ This `README.md` is a starting point for publishing this repository to GitHub. I
 - Add a short example dataset preview or a contribution guide
 - Create GitHub Actions for tests or formatting
 
-If you want any of the above, tell me which and I'll update the README and repo accordingly.
 
