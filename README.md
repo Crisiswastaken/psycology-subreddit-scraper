@@ -100,11 +100,6 @@ python scripts/convert_pdf.py
 **Contact**
 - If you want help or have questions, open an issue or reach out via the contact information in the repository.
 
----
 
-This `README.md` is a starting point for publishing this repository to GitHub. If you want, I can also:
-- Add badges (build / license / PyPI)
-- Add a short example dataset preview or a contribution guide
-- Create GitHub Actions for tests or formatting
 
 
